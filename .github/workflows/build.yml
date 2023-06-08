@@ -27,7 +27,7 @@ jobs:
       - name: Test Docker image for CVEs with Trivy
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
-          trivy --exit-code 0 --severity HIGH,CRITICAL zadanie2
+          trivy --severity HIGH,CRITICAL zadanie2 || true
 
       - name: Log in to GitHub Packages
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
