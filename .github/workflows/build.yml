@@ -9,28 +9,28 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build Docker image
-      run: docker build -t zadanie2 .
+      - name: Build Docker image
+        run: docker build -t zadanie2 .
 
-    - name: Test Docker image for CVEs with Trivy
-      run: |
-        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
-        trivy --exit-code 0 --severity HIGH,CRITICAL zadanie2
+      - name: Test Docker image for CVEs with Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy --exit-code 0 --severity HIGH,CRITICAL zadanie2
 
-    - name: Log in to GitHub Packages
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Log in to GitHub Packages
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    - name: Push Docker image to GitHub Packages
-      run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2 && docker push ghcr.io/exokamiz/zadanie2
+      - name: Push Docker image to GitHub Packages
+        run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2 && docker push ghcr.io/exokamiz/zadanie2
