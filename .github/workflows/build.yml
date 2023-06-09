@@ -30,7 +30,7 @@ jobs:
           trivy --severity HIGH,CRITICAL zadanie2 || true
 
       - name: Log in to GitHub Packages
-        run: echo "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" | docker login ghcr.io -u exokamiz --password-stdin
+        run: echo "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" | docker login ghcr.io -u ExoKamiz --password-stdin
 
       - name: Push Docker image to GitHub Packages
         run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2 && docker push ghcr.io/exokamiz/zadanie2
