@@ -65,4 +65,8 @@ jobs:
         run: |
           docker tag zadanie2 ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
           docker push ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
+          
+      - name: Show version
+        run: echo "Generated version:${{ steps.generate_version.outputs.version }}"
+
 
