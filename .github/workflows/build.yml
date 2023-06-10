@@ -58,5 +58,6 @@ jobs:
 
       - name: Tag and push Docker image
         run: |
-          docker tag zadanie2 ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
-          docker push ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
+          docker tag zadanie2 ghcr.io/exokamiz/zadanie2/${{ steps.generate_version.outputs.version }}
+          docker push ghcr.io/exokamiz/zadanie2/${{ steps.generate_version.outputs.version }}
+
