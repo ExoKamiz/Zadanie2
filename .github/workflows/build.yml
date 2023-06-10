@@ -42,6 +42,21 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         # Logs in to GitHub Container Registry using the provided GitHub token
 
-      - name: Push Docker image to GitHub Packages
-        run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2 && docker push ghcr.io/exokamiz/zadanie2
-        # Tags the Docker image as 'ghcr.io/exokamiz/zadanie2' and pushes it to GitHub Packages
+      # - name: Push Docker image to GitHub Packages
+      #   run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2 && docker push ghcr.io/exokamiz/zadanie2
+      #   # Tags the Docker image as 'ghcr.io/exokamiz/zadanie2' and pushes it to GitHub Packages
+
+      - name: Get latest image version
+        id: get_version
+        run: |
+          echo "::set-output name=version::$(docker pull ghcr.io/exokamiz/zadanie2 | grep -oP '(?<=digest: ).*')"
+
+      - name: Generate new image version
+        id: generate_version
+        run: |
+          echo "::set-output name=version::$(python generate_version.py ${{ steps.get_version.outputs.version }})"
+
+      - name: Tag and push Docker image
+        run: |
+          docker tag zadanie2 ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
+          docker push ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
