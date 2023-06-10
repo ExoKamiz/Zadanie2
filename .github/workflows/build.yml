@@ -56,9 +56,10 @@ jobs:
         run: |
           echo "::set-output name=version::$(python generate_version.py ${{ steps.get_version.outputs.version }})"
           
-      - name: Tag and push Docker image
-        run: |
-          docker tag zadanie2 ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
-          docker push ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
+      - name: Push Docker image to GitHub Packages
+        run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }} && docker push ghcr.io/exokamiz/zadanie2:${{ steps.generate_version.outputs.version }}
+
+        
+
 
 
