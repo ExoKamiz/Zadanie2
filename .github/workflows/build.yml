@@ -29,8 +29,12 @@ jobs:
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
           trivy --severity HIGH,CRITICAL zadanie2 || true
 
-      - name: Log in to GitHub Packages
-        run: echo "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" | docker login ghcr.io -u ExoKamiz --password-stdin
-
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Push Docker image to GitHub Packages
         run: docker tag zadanie2 ghcr.io/exokamiz/zadanie2 && docker push ghcr.io/exokamiz/zadanie2
